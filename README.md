@@ -50,6 +50,7 @@ railway.ico;
 
 Поддерживаемые форматы данных:
 Фото: .jpg, .jpeg, .png, .bmp, .webp, .gif, .tiff.
+
 Видео: .mp4, .avi, .mkv, .mov, .wmv, .flv.
 
 Вкладка «Обучение модели»
