@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType> 
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ApplicationIcon>Resources\railway.ico</ApplicationIcon>
+    <AssemblyName>OSTUVision</AssemblyName>
+    <RootNamespace>OSTUVision</RootNamespace>
+    <Version>2.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- YOLO26 требует ONNX Runtime 1.17+ -->
+    <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.21.0" />
+    <!-- ImageSharp вместо OpenCvSharp (быстрее, без GDI+) -->
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
+    <PackageReference Include="System.Speech" Version="8.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Threading.Tasks.Dataflow" Version="8.0.0" />
+  <PackageReference Include="OpenCvSharp4" Version="4.8.0.20230708" />
+  <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.8.0.20230708" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Копирование моделей и конфигов -->
+    <None Update="Models\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="train_yolo26.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <!-- Создание папок при сборке -->
+  <Target Name="CreateFolders" AfterTargets="AfterBuild">
+    <MakeDir Directories="$(OutDir)\CustomData\train" />
+    <MakeDir Directories="$(OutDir)\CustomData\valid" />
+    <MakeDir Directories="$(OutDir)\Results\Images" />
+    <MakeDir Directories="$(OutDir)\Results\Videos" />
+    <MakeDir Directories="$(OutDir)\Data" />
+  </Target>
+
+</Project>
